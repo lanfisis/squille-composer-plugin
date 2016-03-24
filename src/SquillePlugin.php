@@ -6,6 +6,7 @@ use Composer\Composer;
 use Composer\IO\IOInterface;
 use Composer\EventDispatcher\EventSubscriberInterface;
 use Composer\Plugin\PluginInterface;
+use Composer\Script\ScriptEvents;
 
 /**
  * Composer plugin to declare Squille plugins
