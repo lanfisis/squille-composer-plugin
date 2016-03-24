@@ -1,5 +1,5 @@
 {
-    "name": "burdz/squille",
+    "name": "burdz/squille-composer-plugin",
     "description": "A Composer plugin to manage Squille plugins",
     "minimum-stability": "dev",
     "keywords": ["composer", "plugin", "squille"],
