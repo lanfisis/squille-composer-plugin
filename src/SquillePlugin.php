@@ -32,12 +32,20 @@ class SquillePlugin implements PluginInterface, EventSubscriberInterface
     protected $io;
 
     /**
+     * Plugin class file path
+     *
+     * @var string
+     */
+    protected $file;
+
+    /**
      * {@inheritdoc}
      */
     public function activate(Composer $composer, IOInterface $io)
     {
         $this->composer = $composer;
         $this->io       = $io;
+        $this->file     = __DIR__.'/PluginList.php';
     }
 
     /**
@@ -48,7 +56,32 @@ class SquillePlugin implements PluginInterface, EventSubscriberInterface
         return [
             ScriptEvents::POST_INSTALL_CMD => 'onPostInstallOrUpdate',
             ScriptEvents::POST_UPDATE_CMD  => 'onPostInstallOrUpdate',
+            ScriptEvents::PRE_INSTALL_CMD => 'onPreInstallOrUpdate',
+            ScriptEvents::PRE_UPDATE_CMD  => 'onPreInstallOrUpdate',
         ];
+    }
+
+    /**
+     * Prepare plugin class file and add it to autoload
+     *
+     * @return void
+     */
+    public function onPreInstallOrUpdate()
+    {
+        $class = '<?php
+            namespace Burdz\Composer;
+            class PluginList
+            {
+                public static function getAll()
+                {
+                    return [];
+                }
+            }
+        ';
+        file_put_contents($this->file, $class);
+        $autoload = $this->composer->getPackage()->getAutoload();
+        $autoload['files'][] = $this->file;
+        $this->composer->getPackage()->setAutoload($autoload);
     }
 
     /**
@@ -71,35 +104,16 @@ class SquillePlugin implements PluginInterface, EventSubscriberInterface
                 $plugins += $extra[self::EXTRA_KEY];
             }
         }
-        $this->dump($plugins);
+
+        $content = file_get_contents($this->file);
+        file_put_contents($this->file, str_replace('[]', var_export($plugins, true), $content));
+
+
         if ($this->io->isVerbose()) {
             array_walk($plugins, function ($pluging) {
                 $message = "<info>[Squille pluging]</info> {$pluging}";
                 $this->io->write($message);
             });
         }
-    }
-
-    /**
-     * Create a class who can return plugin list
-     * and add it to autoload files
-     *
-     * @param array $plugins
-     */
-    protected function dump(array $plugins)
-    {
-        $class = '<?php
-            namespace Burdz\Composer;
-            class PluginList
-            {
-                public static function getAll()
-                {
-                    return '.var_export($plugins, true).';
-                }
-            }
-        ';
-        $file = __DIR__.'/PluginList.php';
-        file_put_contents($file, $class);
-        $this->composer->getPackage()->setAutoload(['files' => [$file]]);
     }
 }
