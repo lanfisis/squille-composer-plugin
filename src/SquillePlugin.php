@@ -1,6 +1,6 @@
 <?php
 
-namespace Burdz\Composer;
+namespace Burdz\Squille\Composer;
 
 use Composer\Composer;
 use Composer\IO\IOInterface;
@@ -69,7 +69,7 @@ class SquillePlugin implements PluginInterface, EventSubscriberInterface
     public function onPreInstallOrUpdate()
     {
         $class = '<?php
-            namespace Burdz\Composer;
+            namespace Burdz\Squille\Composer;
             class PluginList
             {
                 public static function getAll()
