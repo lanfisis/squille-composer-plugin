@@ -5,6 +5,7 @@ namespace Burdz\Squille\Composer;
 use Composer\Composer;
 use Composer\IO\IOInterface;
 use Composer\Plugin\PluginInterface;
+use Composer\Plugin\PluginEvents;
 use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
 
@@ -37,8 +38,9 @@ class SquillePlugin implements PluginInterface, EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            ScriptEvents::POST_INSTALL_CMD => 'onPostInstallOrUpdate',
-            ScriptEvents::POST_UPDATE_CMD  => 'onPostInstallOrUpdate',
+            //ScriptEvents::POST_INSTALL_CMD => 'onPostInstallOrUpdate',
+            //ScriptEvents::POST_UPDATE_CMD  => 'onPostInstallOrUpdate',
+            PluginEvents::COMMAND,
         ];
     }
 
