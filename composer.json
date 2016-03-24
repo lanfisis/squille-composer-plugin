@@ -1,6 +1,7 @@
 {
     "name": "burdz/squille-composer-plugin",
     "description": "A Composer plugin to manage Squille plugins",
+    "license": "WTFPL",
     "minimum-stability": "dev",
     "keywords": ["composer", "plugin", "squille"],
     "type": "composer-plugin",
