@@ -4,6 +4,7 @@ namespace Burdz\Squille\Composer;
 
 use Composer\Composer;
 use Composer\IO\IOInterface;
+use Composer\EventDispatcher\EventSubscriberInterface;
 use Composer\Plugin\PluginInterface;
 use Composer\Plugin\PluginEvents;
 use Composer\Script\Event;
