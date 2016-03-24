@@ -72,7 +72,7 @@ class SquillePlugin implements PluginInterface, EventSubscriberInterface
             }
         }
         $this->dump($plugins);
-        if ($this->inputOutput->isVeryVerbose()) {
+        if ($this->io->isVerbose()) {
             array_walk($plugins, function ($pluging) {
                 $message = "<info>[Squille pluging]</info> {$pluging}";
                 $this->io->write($message);
