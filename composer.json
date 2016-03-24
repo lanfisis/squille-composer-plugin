@@ -1,0 +1,19 @@
+{
+    "name": "burdz/squille",
+    "description": "A Composer plugin to manage Squille plugins",
+    "minimum-stability": "dev",
+    "keywords": ["composer", "plugin", "squille"],
+    "type": "composer-plugin",
+    "require": {
+      "composer-plugin-api": "^1.0"
+    },
+    "extra": {
+      "class": "Burdz\\Squille\\Composer\\SquillePlugin"
+    },
+    "autoload": {
+      "psr-4": { "Burdz\\Squille\\Composer\\": "src/" }
+    },
+    "require-dev": {
+        "composer/composer": "^1.0@beta"
+    }
+}
