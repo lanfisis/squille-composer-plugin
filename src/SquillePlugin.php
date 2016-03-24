@@ -41,7 +41,7 @@ class SquillePlugin implements PluginInterface, EventSubscriberInterface
         return [
             //ScriptEvents::POST_INSTALL_CMD => 'onPostInstallOrUpdate',
             //ScriptEvents::POST_UPDATE_CMD  => 'onPostInstallOrUpdate',
-            PluginEvents::COMMAND,
+            PluginEvents::COMMAND => 'onPostInstallOrUpdate',
         ];
     }
 
