@@ -107,8 +107,7 @@ class SquillePlugin implements PluginInterface, EventSubscriberInterface
 
         $content = file_get_contents($this->file);
         file_put_contents($this->file, str_replace('[]', var_export($plugins, true), $content));
-
-
+        
         if ($this->io->isVerbose()) {
             array_walk($plugins, function ($pluging) {
                 $message = "<info>[Squille pluging]</info> {$pluging}";
