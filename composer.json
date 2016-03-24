@@ -8,10 +8,10 @@
       "composer-plugin-api": "^1.0"
     },
     "extra": {
-      "class": "Burdz\\Squille\\Composer\\SquillePlugin"
+      "class": "Burdz\\Composer\\SquillePlugin"
     },
     "autoload": {
-      "psr-4": { "Burdz\\Squille\\Composer\\": "src/" }
+      "psr-4": { "Burdz\\Composer\\": "src/" }
     },
     "require-dev": {
         "composer/composer": "^1.0@beta"
