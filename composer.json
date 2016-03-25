@@ -14,7 +14,14 @@
     "autoload": {
       "psr-4": { "Burdz\\Squille\\Composer\\": "src/" }
     },
+    "autoload-dev": {
+        "psr-4": {"Burdz\\Test\\": "tests/units/"}
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
     "require-dev": {
-        "composer/composer": "^1.0@beta"
+        "composer/composer": "^1.0@beta",
+        "phpunit/phpunit": "^4.8"
     }
 }

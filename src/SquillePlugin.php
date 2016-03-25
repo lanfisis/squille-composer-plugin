@@ -32,20 +32,12 @@ class SquillePlugin implements PluginInterface, EventSubscriberInterface
     protected $io;
 
     /**
-     * Plugin class file path
-     *
-     * @var string
-     */
-    protected $file;
-
-    /**
      * {@inheritdoc}
      */
     public function activate(Composer $composer, IOInterface $io)
     {
         $this->composer = $composer;
         $this->io       = $io;
-        $this->file     = __DIR__.'/PluginList.php';
     }
 
     /**
@@ -53,35 +45,7 @@ class SquillePlugin implements PluginInterface, EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return [
-            ScriptEvents::POST_INSTALL_CMD => 'onPostInstallOrUpdate',
-            ScriptEvents::POST_UPDATE_CMD  => 'onPostInstallOrUpdate',
-            ScriptEvents::PRE_INSTALL_CMD => 'onPreInstallOrUpdate',
-            ScriptEvents::PRE_UPDATE_CMD  => 'onPreInstallOrUpdate',
-        ];
-    }
-
-    /**
-     * Prepare plugin class file and add it to autoload
-     *
-     * @return void
-     */
-    public function onPreInstallOrUpdate()
-    {
-        $class = '<?php
-            namespace Burdz\Squille\Composer;
-            class PluginList
-            {
-                public static function getAll()
-                {
-                    return [];
-                }
-            }
-        ';
-        file_put_contents($this->file, $class);
-        $autoload = $this->composer->getPackage()->getAutoload();
-        $autoload['files'][] = $this->file;
-        $this->composer->getPackage()->setAutoload($autoload);
+        return [ScriptEvents::PRE_AUTOLOAD_DUMP => 'generatePluginFile'];
     }
 
     /**
@@ -90,7 +54,7 @@ class SquillePlugin implements PluginInterface, EventSubscriberInterface
      *
      * @return void
      */
-    public function onPostInstallOrUpdate()
+    public function generatePluginFile()
     {
         $plugins = [];
         $extra = $this->composer->getPackage()->getExtra();
@@ -105,8 +69,8 @@ class SquillePlugin implements PluginInterface, EventSubscriberInterface
             }
         }
 
-        $content = file_get_contents($this->file);
-        file_put_contents($this->file, str_replace('[]', var_export($plugins, true), $content));
+        $file = $this->composer->getConfig()->get('vendor-dir').'/squille-plugins.php';
+        $this->dump($file, $plugins);
         
         if ($this->io->isVerbose()) {
             array_walk($plugins, function ($pluging) {
@@ -114,5 +78,28 @@ class SquillePlugin implements PluginInterface, EventSubscriberInterface
                 $this->io->write($message);
             });
         }
+    }
+
+    /**
+     * Dump plugin class file and add it to autoload
+     *
+     * @return void
+     */
+    public function dump($file, array $plugins)
+    {
+        $class = '<?php
+            namespace Burdz\Squille\Composer;
+            class PluginRepository
+            {
+                public static function getAll()
+                {
+                    return '.var_export($plugins, true).';
+                }
+            }
+        ';
+        file_put_contents($file, $class);
+        $autoload = $this->composer->getPackage()->getAutoload();
+        $autoload['files'][] = $file;
+        $this->composer->getPackage()->setAutoload($autoload);
     }
 }
