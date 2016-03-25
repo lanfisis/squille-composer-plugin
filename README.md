@@ -1,5 +1,7 @@
 # Squille Composer Plugin
 
+[![Build Status](https://travis-ci.org/lanfisis/squille-composer-plugin.svg?branch=master)](https://travis-ci.org/lanfisis/squille-composer-plugin)
+
 This Composer plugin detect Squille plugins into Composer packages and generate a pluging reposity class available in project.
 
 ## Register a plugin
