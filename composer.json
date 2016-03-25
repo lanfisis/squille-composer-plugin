@@ -6,13 +6,14 @@
     "keywords": ["composer", "plugin", "squille"],
     "type": "composer-plugin",
     "require": {
-      "composer-plugin-api": "^1.0"
+        "php": ">=5.5.0",
+        "composer-plugin-api": "^1.0"
     },
     "extra": {
-      "class": "Burdz\\Squille\\Composer\\SquillePlugin"
+        "class": "Burdz\\Squille\\Composer\\SquillePlugin"
     },
     "autoload": {
-      "psr-4": { "Burdz\\Squille\\Composer\\": "src/" }
+        "psr-4": { "Burdz\\Squille\\Composer\\": "src/" }
     },
     "autoload-dev": {
         "psr-4": {"Burdz\\Test\\": "tests/units/"}
